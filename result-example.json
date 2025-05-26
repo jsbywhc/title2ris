@@ -1,0 +1,604 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {
+
+    },
+    "total-results": 186349,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [2025, 2, 21]
+          ],
+          "date-time": "2025-02-21T20:07:15Z",
+          "timestamp": 1740168435550,
+          "version": "3.37.3"
+        },
+        "reference-count": 33,
+        "publisher": "Royal Society of Chemistry (RSC)",
+        "issue": "25",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [2025, 1, 2]
+              ],
+              "date-time": "2025-01-02T00:00:00Z",
+              "timestamp": 1735776000000
+            },
+            "content-version": "am",
+            "delay-in-days": 367,
+            "URL": "http://rsc.li/journals-terms-of-use"
+          }
+        ],
+        "funder": [
+          {
+            "DOI": "10.13039/501100001809",
+            "name": "National Natural Science Foundation of China",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "52273170"
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100001809",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          },
+          {
+            "DOI": "10.13039/501100012166",
+            "name": "National Key Research and Development Program of China",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "2022YFA1203200"
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100012166",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          },
+          {
+            "DOI": "10.13039/501100002367",
+            "name": "Chinese Academy of Sciences",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "XDB36000000"
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100002367",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "rsc.org"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "J. Mater. Chem. A"
+        ],
+        "abstract": "\u003Cjats:p\u003ETe substitution of sulfur (S) in PzDPP-based donor–acceptor copolymers enhances n-type power factor, while Se boosts both n-type and p-type power factors. Heavy chalcogen doping strategy shows promise for improving thermoelectric properties.\u003C/jats:p\u003E",
+        "DOI": "10.1039/d3ta07199e",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [2024, 1, 2]
+          ],
+          "date-time": "2024-01-02T03:02:15Z",
+          "timestamp": 1704164535000
+        },
+        "page": "15036-15043",
+        "update-policy": "https://doi.org/10.1039/rsc_crossmark_policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Regulating the thermoelectric power factor of donor–acceptor copolymers by heavy chalcogen substitution: a first-principles study"
+        ],
+        "prefix": "10.1039",
+        "volume": "12",
+        "author": [
+          {
+            "given": "Yishan",
+            "family": "Wang",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "College of Chemistry, Key Laboratory of Theoretical & Computational Photochemistry of Ministry of Education, Beijing Normal University, Beijing 100875, China"
+              },
+              {
+                "name": "Laboratory of Theoretical and Computational Nanoscience, CAS Center for Excellence in Nanoscience, National Center for Nanoscience and Technology, Chinese Academy of Sciences, Beijing 100190, China"
+              }
+            ]
+          },
+          {
+            "given": "Yu",
+            "family": "Wei",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "College of Chemistry, Key Laboratory of Theoretical & Computational Photochemistry of Ministry of Education, Beijing Normal University, Beijing 100875, China"
+              },
+              {
+                "name": "Laboratory of Theoretical and Computational Nanoscience, CAS Center for Excellence in Nanoscience, National Center for Nanoscience and Technology, Chinese Academy of Sciences, Beijing 100190, China"
+              }
+            ]
+          },
+          {
+            "given": "Wei",
+            "family": "Hao",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "MOE Key Laboratory of Macromolecular Synthesis and Functionalization, International Research Center for X Polymers, Department of Polymer Science and Engineering, Zhejiang University, Hangzhou 310027, China"
+              },
+              {
+                "name": "Laboratory of Theoretical and Computational Nanoscience, CAS Center for Excellence in Nanoscience, National Center for Nanoscience and Technology, Chinese Academy of Sciences, Beijing 100190, China"
+              }
+            ]
+          },
+          {
+            "given": "Hanying",
+            "family": "Li",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "MOE Key Laboratory of Macromolecular Synthesis and Functionalization, International Research Center for X Polymers, Department of Polymer Science and Engineering, Zhejiang University, Hangzhou 310027, China"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-2159-2602",
+            "authenticated-orcid": false,
+            "given": "Shuzhou",
+            "family": "Li",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "School of Materials Science and Engineering, Nanyang Technological University, Singapore 639798, Singapore"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-4938-2850",
+            "authenticated-orcid": false,
+            "given": "Jia",
+            "family": "Zhu",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Laboratory of Theoretical and Computational Nanoscience, CAS Center for Excellence in Nanoscience, National Center for Nanoscience and Technology, Chinese Academy of Sciences, Beijing 100190, China"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-1668-465X",
+            "authenticated-orcid": false,
+            "given": "Weihai",
+            "family": "Fang",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "College of Chemistry, Key Laboratory of Theoretical & Computational Photochemistry of Ministry of Education, Beijing Normal University, Beijing 100875, China"
+              }
+            ]
+          }
+        ],
+        "member": "292",
+        "published-online": {
+          "date-parts": [
+            [2024]
+          ]
+        },
+        "reference": [
+          {
+            "key": "D3TA07199E/cit1/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1801898",
+            "DOI": "10.1002/adma.201801898",
+            "volume": "30",
+            "author": "Wang",
+            "year": "2018",
+            "journal-title": "Adv. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit2/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1804290",
+            "DOI": "10.1002/adma.201804290",
+            "volume": "30",
+            "author": "Liu",
+            "year": "2018",
+            "journal-title": "Adv. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit3/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1802850",
+            "DOI": "10.1002/adma.201802850",
+            "volume": "30",
+            "author": "Yang",
+            "year": "2018",
+            "journal-title": "Adv. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit4/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "20215",
+            "DOI": "10.1021/jacs.9b10107",
+            "volume": "141",
+            "author": "Yan",
+            "year": "2019",
+            "journal-title": "J. Am. Chem. Soc."
+          },
+          {
+            "key": "D3TA07199E/cit5/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2002060",
+            "DOI": "10.1002/adma.202002060",
+            "volume": "32",
+            "author": "Wang",
+            "year": "2020",
+            "journal-title": "Adv. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit6/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2004378",
+            "DOI": "10.1002/adfm.202004378",
+            "volume": "30",
+            "author": "Li",
+            "year": "2020",
+            "journal-title": "Adv. Funct. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit7/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "8189",
+            "DOI": "10.1002/anie.202015216",
+            "volume": "60",
+            "author": "Xiong",
+            "year": "2021",
+            "journal-title": "Angew. Chem., Int. Ed."
+          },
+          {
+            "key": "D3TA07199E/cit8/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2005901",
+            "DOI": "10.1002/adfm.202005901",
+            "volume": "31",
+            "author": "Han",
+            "year": "2021",
+            "journal-title": "Adv. Funct. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit9/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "16184",
+            "DOI": "10.1002/anie.202105127",
+            "volume": "60",
+            "author": "Dong",
+            "year": "2021",
+            "journal-title": "Angew. Chem., Int. Ed."
+          },
+          {
+            "key": "D3TA07199E/cit10/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "18994",
+            "DOI": "10.1002/anie.201911058",
+            "volume": "58",
+            "author": "Ding",
+            "year": "2019",
+            "journal-title": "Angew. Chem., Int. Ed."
+          },
+          {
+            "key": "D3TA07199E/cit11/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "297",
+            "DOI": "10.1021/ma502307b",
+            "volume": "48",
+            "author": "Carrera",
+            "year": "2015",
+            "journal-title": "Macromolecules"
+          },
+          {
+            "key": "D3TA07199E/cit12/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "5889",
+            "DOI": "10.1021/ma5014308",
+            "volume": "47",
+            "author": "Planells",
+            "year": "2014",
+            "journal-title": "Macromolecules"
+          },
+          {
+            "key": "D3TA07199E/cit13/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "10691",
+            "DOI": "10.1002/anie.201406068",
+            "volume": "53",
+            "author": "Park",
+            "year": "2014",
+            "journal-title": "Angew. Chem., Int. Ed."
+          },
+          {
+            "key": "D3TA07199E/cit14/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1314",
+            "DOI": "10.1021/ja511984q",
+            "volume": "137",
+            "author": "Ashraf",
+            "year": "2015",
+            "journal-title": "J. Am. Chem. Soc."
+          },
+          {
+            "key": "D3TA07199E/cit15/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "5495",
+            "DOI": "10.1039/c3cc41250d",
+            "volume": "49",
+            "author": "Kaur",
+            "year": "2013",
+            "journal-title": "Chem. Commun."
+          },
+          {
+            "key": "D3TA07199E/cit16/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2600",
+            "DOI": "10.1002/cphc.201900386",
+            "volume": "20",
+            "author": "Wu",
+            "year": "2019",
+            "journal-title": "ChemPhysChem"
+          },
+          {
+            "key": "D3TA07199E/cit17/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "34620",
+            "DOI": "10.1021/acsami.6b11041",
+            "volume": "8",
+            "author": "Lv",
+            "year": "2016",
+            "journal-title": "ACS Appl. Mater. Interfaces"
+          },
+          {
+            "key": "D3TA07199E/cit18/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1093",
+            "DOI": "10.1039/C5SC03501E",
+            "volume": "7",
+            "author": "Al-Hashimi",
+            "year": "2016",
+            "journal-title": "Chem. Sci."
+          },
+          {
+            "key": "D3TA07199E/cit19/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1700078",
+            "DOI": "10.1002/aelm.201700078",
+            "volume": "3",
+            "author": "Huang",
+            "year": "2017",
+            "journal-title": "Adv. Electron. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit20/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1802419",
+            "DOI": "10.1002/aenm.201802419",
+            "volume": "8",
+            "author": "Gregory",
+            "year": "2018",
+            "journal-title": "Adv. Energy Mater."
+          },
+          {
+            "key": "D3TA07199E/cit21/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1028",
+            "DOI": "10.1021/acs.nanolett.8b04302",
+            "volume": "19",
+            "author": "Park",
+            "year": "2019",
+            "journal-title": "Nano Lett."
+          },
+          {
+            "key": "D3TA07199E/cit22/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "5264",
+            "DOI": "10.1021/acsnano.5b01982",
+            "volume": "9",
+            "author": "Um",
+            "year": "2015",
+            "journal-title": "ACS Nano"
+          },
+          {
+            "key": "D3TA07199E/cit23/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2993",
+            "DOI": "10.1002/adma.201305084",
+            "volume": "26",
+            "author": "Tseng",
+            "year": "2014",
+            "journal-title": "Adv. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit24/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "4196",
+            "DOI": "10.1021/acs.iecr.7b00313",
+            "volume": "56",
+            "author": "Yu",
+            "year": "2017",
+            "journal-title": "Ind. Eng. Chem. Res."
+          },
+          {
+            "key": "D3TA07199E/cit25/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "11985",
+            "DOI": "10.1039/C8TA02175A",
+            "volume": "6",
+            "author": "He",
+            "year": "2018",
+            "journal-title": "J. Mater. Chem. A"
+          },
+          {
+            "key": "D3TA07199E/cit26/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "3247",
+            "DOI": "10.1039/C6TC05534F",
+            "volume": "5",
+            "author": "Cheng",
+            "year": "2017",
+            "journal-title": "J. Mater. Chem. C"
+          },
+          {
+            "key": "D3TA07199E/cit27/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "11104",
+            "DOI": "10.1021/jp071077d",
+            "volume": "111",
+            "author": "Prins",
+            "year": "2007",
+            "journal-title": "J. Phys. Chem. C"
+          },
+          {
+            "key": "D3TA07199E/cit28/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2951",
+            "DOI": "10.1021/jz201229a",
+            "volume": "2",
+            "author": "Grozema",
+            "year": "2011",
+            "journal-title": "J. Phys. Chem. Lett."
+          },
+          {
+            "key": "D3TA07199E/cit29/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2238",
+            "DOI": "10.1038/ncomms3238",
+            "volume": "4",
+            "author": "Zhang",
+            "year": "2013",
+            "journal-title": "Nat. Commun."
+          },
+          {
+            "key": "D3TA07199E/cit30/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "2764",
+            "DOI": "10.1021/nl500758w",
+            "volume": "14",
+            "author": "Luo",
+            "year": "2014",
+            "journal-title": "Nano Lett."
+          },
+          {
+            "key": "D3TA07199E/cit31/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "7759",
+            "DOI": "10.1002/adma.201502820",
+            "volume": "27",
+            "author": "Hsu",
+            "year": "2015",
+            "journal-title": "Adv. Mater."
+          },
+          {
+            "key": "D3TA07199E/cit32/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1336",
+            "DOI": "10.1103/PhysRev.181.1336",
+            "volume": "181",
+            "author": "Cutler",
+            "year": "1969",
+            "journal-title": "Phys. Rev."
+          },
+          {
+            "key": "D3TA07199E/cit33/1",
+            "doi-asserted-by": "crossref",
+            "first-page": "1508",
+            "DOI": "10.1002/asia.202100285",
+            "volume": "16",
+            "author": "Li",
+            "year": "2021",
+            "journal-title": "Chem.–Asian J."
+          }
+        ],
+        "container-title": [
+          "Journal of Materials Chemistry A"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://pubs.rsc.org/en/content/articlepdf/2024/TA/D3TA07199E",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [2024, 6, 25]
+          ],
+          "date-time": "2024-06-25T12:59:26Z",
+          "timestamp": 1719320366000
+        },
+        "score": 64.689,
+        "resource": {
+          "primary": {
+            "URL": "https://xlink.rsc.org/?DOI=D3TA07199E"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [2024]
+          ]
+        },
+        "references-count": 33,
+        "journal-issue": {
+          "issue": "25",
+          "published-print": {
+            "date-parts": [
+              [2024, 6, 25]
+            ]
+          }
+        },
+        "URL": "https://doi.org/10.1039/d3ta07199e",
+        "ISSN": [
+          "2050-7488",
+          "2050-7496"
+        ],
+        "issn-type": [
+          {
+            "type": "print",
+            "value": "2050-7488"
+          },
+          {
+            "type": "electronic",
+            "value": "2050-7496"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [2024]
+          ]
+        }
+      }
+    ],
+    "items-per-page": 1,
+    "query": {
+      "start-index": 0,
+      "search-terms": "Regulating the thermoelectric power factor of donor–acceptor copolymers by heavy chalcogen substitution: a first-principles study"
+    }
+  }
+}
