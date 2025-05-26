@@ -33,7 +33,7 @@ def get_metadata(title, max_retries=3, timeout=60):
     输出：元数据字典
     '''
     encoded_title = quote(title) # URL编码标题，处理空格和特殊字符
-    url = f"https://api.crossref.org/works?query={encoded_title}&rows=2" # 请求2个结果，以便在第一个是Supplemental Information时能使用第二个
+    url = f"https://api.crossref.org/works?query={encoded_title}&rows=5" # 请求5个结果，以便在前面的结果是不需要的特殊标题时能够使用后面的结果
     headers = {
         'User-Agent': 'Title2RIS/1.0 (mailto:wanghc2023@nanoctr.cn)', # **UA可能需要参考张老师**
     }
@@ -46,33 +46,65 @@ def get_metadata(title, max_retries=3, timeout=60):
             
             data = response.json()
             if data['message']['total-results'] > 0 and len(data['message']['items']) > 0:
-                # 检查第一个结果是否为Supplemental Information
-                first_result = data['message']['items'][0]
+                # 定义需要跳过的特殊标题和关键词
+                skip_titles = ['Frontispiece', 'Frontispiz', 'SI', 'Supplemental Information', 'Supplementary Information', 'Supporting Information', 'Cover Picture', 'Cover Image', 'Graphical Abstract', 'Table of Contents']
                 
-                # 检查标题或描述中是否包含Supplemental Information
-                is_supplemental = False
-                
-                if 'title' in first_result:
-                    for title_text in first_result['title']:
-                        if 'supplemental' in title_text.lower() or 'supporting information' in title_text.lower():
-                            is_supplemental = True
-                            break
-                
-                if 'description' in first_result:
-                    if isinstance(first_result['description'], list):
-                        for desc in first_result['description']:
-                            if 'supplemental' in desc.lower() or 'supporting information' in desc.lower():
-                                is_supplemental = True
+                # 逐个检查所有结果，找出第一个不是特殊类型的结果
+                for i, result in enumerate(data['message']['items']):
+                    is_special_case = False
+                    
+                    # 检查标题
+                    if 'title' in result:
+                        for title_text in result['title']:
+                            # 处理形如 'Frontispiz: Real Title' 的情况
+                            # 检查标题是否完全匹配或以特殊关键词开头
+                            title_lower = title_text.lower()
+                            # 使用更精确的匹配逻辑来避免误判简短字符串
+                            # 对于简短词汇(如SI)，确保它前后有边界(如空格或行首)
+                            is_match = False
+                            for skip in skip_titles:
+                                skip_lower = skip.lower()
+                                # 完全匹配
+                                if title_lower == skip_lower:
+                                    is_match = True
+                                    break
+                                # 开头匹配并跟着冒号或空格
+                                if title_lower.startswith(skip_lower + ':') or title_lower.startswith(skip_lower + ' '):
+                                    # 对于简短词(如SI)，确保它是独立的词，而不是更长词的一部分
+                                    if len(skip_lower) <= 3:
+                                        # 检查它是不是在词的边界
+                                        if title_lower.startswith(skip_lower):
+                                            is_match = True
+                                            break
+                                    else:
+                                        is_match = True
+                                        break
+                            
+                            if is_match:
+                                is_special_case = True
+                                print(f"Skipping special title: {title_text}")
                                 break
-                    elif isinstance(first_result['description'], str) and ('supplemental' in first_result['description'].lower() or 'supporting information' in first_result['description'].lower()):
-                        is_supplemental = True
+                    
+                    # 检查描述
+                    if not is_special_case and 'description' in result:
+                        if isinstance(result['description'], list):
+                            for desc in result['description']:
+                                if any(skip_title.lower() in desc.lower() for skip_title in skip_titles):
+                                    is_special_case = True
+                                    break
+                        elif isinstance(result['description'], str):
+                            if any(skip_title.lower() in result['description'].lower() for skip_title in skip_titles):
+                                is_special_case = True
+                    
+                    # 如果不是特殊情况，返回这个结果
+                    if not is_special_case:
+                        if i > 0:
+                            print(f"Skipped {i} special case result(s), using result {i+1} instead.")
+                        return result
                 
-                # 如果第一个结果是补充信息且有第二个结果，则返回第二个结果
-                if is_supplemental and len(data['message']['items']) > 1:
-                    print(f"First result was Supplemental Information, using second result instead.")
-                    return data['message']['items'][1]
-                else:
-                    return first_result  # 返回第一个结果
+                # 如果所有结果都是特殊情况，返回第一个
+                print(f"All results appear to be special cases, using the first result as fallback.")
+                return data['message']['items'][0]
             else:
                 print(f"No results found for title: {title}")
                 return None
@@ -110,7 +142,40 @@ def convert_to_ris(metadata):
     
     # 标题
     if 'title' in metadata and metadata['title']:
-        ris_lines.append(f"TI  - {metadata['title'][0]}")
+        # 如果标题是特殊类型，尝试使用下一个标题
+        title_index = 0
+        skip_titles = ['Frontispiece', 'Frontispiz', 'SI', 'Supplemental Information', 'Supplementary Information', 'Supporting Information', 'Cover Picture', 'Cover Image', 'Graphical Abstract', 'Table of Contents']
+        
+        # 循环查找第一个不在skip_titles列表中的标题
+        for i in range(len(metadata['title'])):
+            title_text = metadata['title'][i].strip()
+            # 处理形如 'Frontispiz: Real Title' 的情况
+            title_lower = title_text.lower()
+            # 使用更精确的匹配逻辑来避免误判简短字符串
+            is_special = False
+            for skip in skip_titles:
+                skip_lower = skip.lower()
+                # 完全匹配
+                if title_lower == skip_lower:
+                    is_special = True
+                    break
+                # 开头匹配并跟着冒号或空格
+                if title_lower.startswith(skip_lower + ':') or title_lower.startswith(skip_lower + ' '):
+                    # 对于简短词(如SI)，确保它是独立的词，而不是更长词的一部分
+                    if len(skip_lower) <= 3:
+                        # 检查它是不是在词的边界
+                        if title_lower.startswith(skip_lower):
+                            is_special = True
+                            break
+                    else:
+                        is_special = True
+                        break
+            
+            if not is_special:
+                title_index = i
+                break
+        
+        ris_lines.append(f"TI  - {metadata['title'][title_index]}")
     
     # 作者
     if 'author' in metadata:
@@ -128,7 +193,15 @@ def convert_to_ris(metadata):
     
     # 摘要
     if 'abstract' in metadata and metadata['abstract']:
-        ris_lines.append(f"AB  - {metadata['abstract'][0]}")
+        # 处理抽象内容可能是字符串或列表的情况
+        abstract_text = metadata['abstract']
+        if isinstance(abstract_text, list):
+            abstract_text = abstract_text[0]
+        # 处理Unicode转义序列，移除XML/HTML标签
+        import re
+        abstract_text = abstract_text.replace('\u003C', '<').replace('\u003E', '>')
+        abstract_text = re.sub('<[^<]+?>', '', abstract_text)
+        ris_lines.append(f"AB  - {abstract_text}")
 
     # 年份
     published_date = None
