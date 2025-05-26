@@ -1,4 +1,4 @@
-# Title2RIS Converter v1.0.0
+# Title2RIS Converter v1.0.1
 
 ## 概述
 
@@ -71,6 +71,10 @@ Title2RIS 的工作流程如下：
    - 将每个标题进行 URL 编码，构造 Crossref API 查询请求
    - 发送 HTTP 请求到 Crossref API（`https://api.crossref.org/works`）
    - 处理 API 响应（示例参见 `result-example.json`），提取相关元数据（如作者、期刊、出版年份等）
+   - **处理补充信息**(v1.0.1)：
+        - 检查第一个结果的标题或描述是否包含 "Supplemental Information"
+        - 如果第一个结果是补充信息且有第二个结果，则返回第二个结果
+        - 如果第一个结果不是补充信息，则返回第一个结果
 3. **RIS 格式转换**：
    - 将获取的元数据转换为标准 RIS 格式
    - 包含多种标签，如 TY (类型)、TI (标题)、AU (作者)、JF (期刊名)、PY (年份)、DO (DOI) 等

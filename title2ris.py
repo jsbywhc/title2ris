@@ -33,7 +33,7 @@ def get_metadata(title, max_retries=3, timeout=60):
     输出：元数据字典
     '''
     encoded_title = quote(title) # URL编码标题，处理空格和特殊字符
-    url = f"https://api.crossref.org/works?query={encoded_title}&rows=1" 
+    url = f"https://api.crossref.org/works?query={encoded_title}&rows=2" # 请求2个结果，以便在第一个是Supplemental Information时能使用第二个
     headers = {
         'User-Agent': 'Title2RIS/1.0 (mailto:wanghc2023@nanoctr.cn)', # **UA可能需要参考张老师**
     }
@@ -46,7 +46,33 @@ def get_metadata(title, max_retries=3, timeout=60):
             
             data = response.json()
             if data['message']['total-results'] > 0 and len(data['message']['items']) > 0:
-                return data['message']['items'][0]
+                # 检查第一个结果是否为Supplemental Information
+                first_result = data['message']['items'][0]
+                
+                # 检查标题或描述中是否包含Supplemental Information
+                is_supplemental = False
+                
+                if 'title' in first_result:
+                    for title_text in first_result['title']:
+                        if 'supplemental' in title_text.lower() or 'supporting information' in title_text.lower():
+                            is_supplemental = True
+                            break
+                
+                if 'description' in first_result:
+                    if isinstance(first_result['description'], list):
+                        for desc in first_result['description']:
+                            if 'supplemental' in desc.lower() or 'supporting information' in desc.lower():
+                                is_supplemental = True
+                                break
+                    elif isinstance(first_result['description'], str) and ('supplemental' in first_result['description'].lower() or 'supporting information' in first_result['description'].lower()):
+                        is_supplemental = True
+                
+                # 如果第一个结果是补充信息且有第二个结果，则返回第二个结果
+                if is_supplemental and len(data['message']['items']) > 1:
+                    print(f"First result was Supplemental Information, using second result instead.")
+                    return data['message']['items'][1]
+                else:
+                    return first_result  # 返回第一个结果
             else:
                 print(f"No results found for title: {title}")
                 return None
