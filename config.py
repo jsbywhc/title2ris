@@ -21,7 +21,10 @@ SKIP_TITLES = [
     'Cover Picture',
     'Cover Image',
     'Graphical Abstract',
-    'Table of Contents'
+    'Table of Contents',
+    'Author Correction',
+    'Correction to',
+    'Comment'
 ]
 
 # File Configuration
