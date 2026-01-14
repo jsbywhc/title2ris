@@ -7,8 +7,11 @@ CROSSREF_API_URL = "https://api.crossref.org/works"
 USER_AGENT = "Title2RIS/1.0 (mailto:wanghc2023@nanoctr.cn)"
 API_TIMEOUT = 20  # seconds
 MAX_RETRIES = 3
-WAIT_TIME_BETWEEN_REQUESTS = 3  # seconds
-BATCH_SIZE = 3  # Number of entries to process before saving
+WAIT_TIME_BETWEEN_REQUESTS = 1  # seconds (reduced for parallel processing)
+BATCH_SIZE = 10  # Number of entries to process before saving
+
+# Parallel Processing Configuration
+MAX_WORKERS = 5  # Number of concurrent API requests
 
 # Special Titles to Skip
 SKIP_TITLES = [

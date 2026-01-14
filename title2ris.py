@@ -10,10 +10,10 @@
     python title2ris.py 后手动输入标题文件路径和输出文件路径
 """
 import requests
-import json
 import time
-import os
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import quote
 from typing import List, Dict, Optional, Union
 import argparse
@@ -22,9 +22,32 @@ from pathlib import Path
 from config import (
     CROSSREF_API_URL, USER_AGENT, API_TIMEOUT, MAX_RETRIES,
     WAIT_TIME_BETWEEN_REQUESTS, BATCH_SIZE, SKIP_TITLES,
-    DEFAULT_OUTPUT_FILE, ENCODING
+    DEFAULT_OUTPUT_FILE, ENCODING, MAX_WORKERS
 )
 from logger import logger
+
+
+class RateLimiter:
+    def __init__(self, rate: float, burst: int = 10):
+        self.rate = rate
+        self.burst = burst
+        self.tokens = burst
+        self.last_update = time.time()
+        self.lock = threading.Lock()
+    
+    def acquire(self):
+        with self.lock:
+            now = time.time()
+            elapsed = now - self.last_update
+            self.tokens = min(self.burst, self.tokens + elapsed * self.rate)
+            self.last_update = now
+            
+            if self.tokens < 1:
+                wait_time = (1 - self.tokens) / self.rate
+                time.sleep(wait_time)
+                self.tokens = 0
+            else:
+                self.tokens -= 1
 
 class Title2RISError(Exception):
     """Base exception for Title2RIS application"""
@@ -278,11 +301,73 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument('output_file', nargs='?', help="Path to output RIS file")
     return parser.parse_args()
 
+def process_single_title(title: str, index: int, total: int, rate_limiter: RateLimiter) -> tuple:
+    """Process a single title and return (index, title, ris_entry or None)"""
+    rate_limiter.acquire()
+    logger.info(f"Processing title {index}/{total}: {title[:50]}...")
+    
+    try:
+        metadata = get_metadata(title)
+        if metadata:
+            ris = convert_to_ris(metadata)
+            if ris:
+                logger.info(f"[{index}/{total}] Success: {title[:40]}...")
+                return (index, title, ris)
+            else:
+                logger.warning(f"[{index}/{total}] Metadata found but RIS conversion failed")
+        else:
+            logger.warning(f"[{index}/{total}] No metadata found")
+        return (index, title, None)
+    except Exception as e:
+        logger.error(f"[{index}/{total}] Error: {str(e)}")
+        return (index, title, None)
+
+
+def process_titles_parallel(titles: List[str], output_file: str) -> List[str]:
+    """Process titles in parallel using ThreadPoolExecutor"""
+    rate_limiter = RateLimiter(rate=1.0/WAIT_TIME_BETWEEN_REQUESTS, burst=MAX_WORKERS)
+    results = [None] * len(titles)
+    ris_entries = []
+    success_count = 0
+    
+    logger.info(f"Starting parallel processing with {MAX_WORKERS} workers...")
+    
+    try:
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            future_to_index = {
+                executor.submit(process_single_title, title, i+1, len(titles), rate_limiter): i
+                for i, title in enumerate(titles)
+            }
+            
+            for future in as_completed(future_to_index):
+                idx = future_to_index[future]
+                try:
+                    index, title, ris = future.result()
+                    results[idx] = ris
+                    
+                    if ris:
+                        success_count += 1
+                        
+                    if success_count > 0 and success_count % BATCH_SIZE == 0:
+                        current_entries = [r for r in results if r is not None]
+                        logger.info(f"Saving checkpoint ({len(current_entries)} entries)...")
+                        write_results(current_entries, output_file, backup=True)
+                        
+                except Exception as e:
+                    logger.error(f"Future error for index {idx}: {str(e)}")
+                    
+    except KeyboardInterrupt:
+        logger.warning("Interrupted! Saving partial results...")
+        
+    ris_entries = [r for r in results if r is not None]
+    logger.info(f"Completed: {len(ris_entries)}/{len(titles)} successful")
+    return ris_entries
+
+
 def main():
     try:
         args = parse_arguments()
         
-        # Get input file
         if args.input_file:
             input_file = args.input_file
         else:
@@ -290,7 +375,6 @@ def main():
         
         input_path = validate_file_path(input_file)
         
-        # Get output file
         if args.output_file:
             output_file = args.output_file
         else:
@@ -298,68 +382,25 @@ def main():
             if not output_file:
                 output_file = DEFAULT_OUTPUT_FILE
         
-        # Read titles
         titles = read_titles(input_path)
         logger.info(f"Read {len(titles)} titles from {input_path}")
         
-        # Process titles
-        ris_entries = []
-        success_count = 0
+        ris_entries = process_titles_parallel(titles, output_file)
         
-        for i, title in enumerate(titles, 1):
-            logger.info(f"\nProcessing title {i}/{len(titles)}:")
-            logger.info(title)
-            
-            try:
-                # Save partial results periodically
-                if success_count > 0 and success_count % BATCH_SIZE == 0:
-                    logger.info(f"Writing partial results ({success_count} entries)...")
-                    write_results(ris_entries, output_file)
-                    write_results(ris_entries, output_file, backup=True)
-                
-                metadata = get_metadata(title)
-                
-                if metadata:
-                    ris = convert_to_ris(metadata)
-                    if ris:
-                        ris_entries.append(ris)
-                        success_count += 1
-                        logger.info("Successfully converted to RIS format")
-                    else:
-                        logger.warning("Found metadata but failed to convert to RIS")
-                else:
-                    logger.warning("No metadata found")
-                
-                # Add delay between requests
-                if i < len(titles):
-                    logger.debug(f"Waiting {WAIT_TIME_BETWEEN_REQUESTS} seconds before next request...")
-                    time.sleep(WAIT_TIME_BETWEEN_REQUESTS)
-                    
-            except KeyboardInterrupt:
-                logger.warning("\nProcess interrupted by user. Saving partial results...")
-                break
-            except Exception as e:
-                logger.error(f"Error processing title: {str(e)}")
-                continue
-        
-        # Write final results
         if ris_entries:
             if write_results(ris_entries, output_file):
-                logger.info(f"\nProcessing complete! Saved {success_count} entries to {output_file}")
+                logger.info(f"Processing complete! Saved {len(ris_entries)} entries to {output_file}")
             else:
-                logger.error("\nFailed to save final results to main output file.")
-                if write_results(ris_entries, output_file, backup=True):
-                    logger.info(f"Saved backup to {output_file}.backup")
-                else:
-                    logger.error("Failed to save backup file as well.")
+                logger.error("Failed to save final results.")
+                write_results(ris_entries, output_file, backup=True)
         else:
-            logger.warning("\nNo entries were successfully processed.")
+            logger.warning("No entries were successfully processed.")
             
     except KeyboardInterrupt:
-        logger.error("\nProgram interrupted by user.")
+        logger.error("Program interrupted by user.")
         sys.exit(1)
     except Exception as e:
-        logger.error(f"\nUnexpected error: {str(e)}")
+        logger.error(f"Unexpected error: {str(e)}")
         sys.exit(1)
 
 if __name__ == "__main__":
